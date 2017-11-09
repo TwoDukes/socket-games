@@ -21,6 +21,7 @@
   <!-- CSS –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="css/style.css">
 
   <!-- JS –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <script type="text/javascript" src="js/libs/socket.io.slim.js"></script>
@@ -33,12 +34,43 @@
 <body>
 	
 	<center>
-		<div id="content">
+		<div id="content" class="container">
 			<br>
 			<h1>Games</h1>
-			
+      <hr>
+      <div class="game-card-holders">
+        <div class="card">
+          <div class="card-container">
+            <h4><b>Tic-Tac-Toe</b></h4> 
+            <button class="button-primary game-button" id="play-button-tic-tac-toe">Play Game</button>
+          </div>
+        </div>
+        <br>
+        <div class="card">
+          <div class="card-container">
+            <h4><b>Chess</b></h4> 
+            <button class="button-primary game-button" id="play-button-chess">Play Game</button>
+          </div>
+        </div>
+        <br>
+        <div class="card">
+          <div class="card-container">
+            <h4><b>Not Battleship</b></h4> 
+            <button class="button-primary game-button" id="play-button-battle-shop">Play Game</button>
+          </div>
+        </div>
+        <br>
+        <div class="card">
+          <div class="card-container">
+            <h4><b>Checkers</b></h4> 
+            <button class="button-primary game-button" id="play-button-checkers">Play Game</button>
+          </div>
+        </div>
+      </div>
 		</div>
 	</center>
+
+  <script type="text/javascript" src="js/script.js"></script>
 
 </body>
 </html>
