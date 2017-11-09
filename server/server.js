@@ -21,6 +21,7 @@ app.use(favicon(path.join(__dirname, '../public', 'favicon.ico')));
 //START: HANDLES ALL SOCKET CONNECTIONS TO SERVER
 **/
 io.on('connection', (socket) => {
+    console.log('new user has joined');
    
 
     //lets chatroom know a user has disconnected and updates user list
