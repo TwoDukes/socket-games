@@ -6,6 +6,11 @@ socket.on('connect', function() {
 	console.log('Client connected');
 });
 
+// socket.on('ttt-new-game', function(res){
+// 	console.log(res.user);
+// 	$('#versus-text').text(username + ' vs. ' + res.user);
+// });
+
 $('document').ready(function() {
 	// Tic-tac-toe button click listener
 	$('#play-button-tic-tac-toe').click(startTicTacToe);
@@ -23,6 +28,10 @@ var startTicTacToe = function() {
 			$(this).hide();
 			$('#game-title').text("Tic-Tac-Toe");
 		});
+
+		// socket.emit('ttt-join', username ,function(res){
+		// 	console.log(res);
+		// });
 
 		$('#versus-text').text(username + ' vs. (WATING)');
 

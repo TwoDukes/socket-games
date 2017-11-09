@@ -30,6 +30,15 @@ io.on('connection', (socket) => {
 
     });
 
+    // socket.on('ttt-join', (username, callback) => {
+
+    // 	socket.emit('ttt-new-game', {
+    // 		user : 'Dustin' 
+    // 	});
+
+    // 	callback('error');
+    // })
+
 });
 /** 
 //END: HANDLES ALL SOCKET CONNECTIONS TO SERVER
