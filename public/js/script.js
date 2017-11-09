@@ -1,5 +1,10 @@
 // #TODO: Change later
 let username = '';
+var socket = io.connect();
+
+socket.on('connect', function() {
+	console.log('Client connected');
+});
 
 $('document').ready(function() {
 	// Tic-tac-toe button click listener
@@ -8,21 +13,23 @@ $('document').ready(function() {
 });
 
 var startTicTacToe = function() {
-	if (!isUsernameEmpty()) {
+	var input = $('#username-input-box').val();
+
+	if (isRealString(input)) {
+
+		username = input;
+
 		$('#main-menu-holder').fadeOut("slow", function() {
 			$(this).hide();
 			$('#game-title').text("Tic-Tac-Toe");
 		});
 
+		$('#versus-text').text(username + ' vs. (WATING)');
+
 		$('#tic-tac-toe-board').show();
 	} else {
 		alert('Enter a username before playing!');
 	}
-}
-
-function isUsernameEmpty() {
-	var input = $('#username-input-box').val();
-	return !isRealString(input);
 }
 
 let isRealString = function (str) { 
