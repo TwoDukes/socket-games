@@ -5,7 +5,7 @@ const favicon = require('serve-favicon');
 const socketIO = require('socket.io');
 
 const publicPath = path.join(__dirname, '../public');
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4200;
 
 //setup the server
 var app = express();
@@ -14,7 +14,7 @@ var io = socketIO(server);
 
 //serve up our static web page
 app.use(express.static(publicPath));
-app.use(favicon(path.join(__dirname, '../public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, '../public','images', 'favicon.ico')));
 
 
 /** 
