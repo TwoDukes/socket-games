@@ -49,7 +49,7 @@ class Rooms {
             curRoom[0].userCount--;
             //if count is at zero remove the room
             if(curRoom[0].userCount <= 0){
-                this.rooms = this.rooms.filter((room) => room.name != name);
+                this.rooms = this.rooms.filter((room) => room.id != id);
             }
         }else{
             return undefined; //cannot remove user from room that does not exist
