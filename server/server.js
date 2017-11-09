@@ -3,6 +3,7 @@ const http = require('http');
 const express = require('express');
 const favicon = require('serve-favicon');
 const socketIO = require('socket.io');
+const {Rooms} = require('./libs/rooms');
 
 const publicPath = path.join(__dirname, '../public');
 const port = process.env.PORT || 4200;
@@ -16,6 +17,7 @@ var io = socketIO(server);
 app.use(express.static(publicPath));
 app.use(favicon(path.join(__dirname, '../public','images', 'favicon.ico')));
 
+const rooms = new Rooms();
 
 /** 
 //START: HANDLES ALL SOCKET CONNECTIONS TO SERVER
