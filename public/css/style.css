@@ -32,3 +32,11 @@
 	border-width: 1px;
 	border-style: solid;
 }
+
+.tic-tac-toe-holder {
+	height: 500px;
+}
+
+.center-input input {
+	text-align: center;
+}

@@ -38,43 +38,61 @@
 </head>
 <body>
 	
-	<center>
-		<div id="content" class="container">
-			<br>
-			<h1>Games</h1>
-      <hr>
-      <div class="game-card-holders">
-        <div class="card">
-          <div class="card-container">
-            <h4><b>Tic-Tac-Toe</b></h4> 
-            <button class="button-primary game-button" id="play-button-tic-tac-toe">Play Game</button>
-          </div>
-        </div>
-        <br>
-        <div class="card">
-          <div class="card-container">
-            <h4><b>Chess</b></h4> 
-            <button class="button-primary game-button" id="play-button-chess">Play Game</button>
-          </div>
-        </div>
-        <br>
-        <div class="card">
-          <div class="card-container">
-            <h4><b>Not Battleship</b></h4> 
-            <button class="button-primary game-button" id="play-button-battle-shop">Play Game</button>
-          </div>
-        </div>
-        <br>
-        <div class="card">
-          <div class="card-container">
-            <h4><b>Checkers</b></h4> 
-            <button class="button-primary game-button" id="play-button-checkers">Play Game</button>
-          </div>
-        </div>
-      </div>
-		</div>
-	</center>
 
+	<div class="container">
+    <center>
+      <!-- Main Menu -->
+      <br>
+      <h1 id="game-title">Games</h1>
+      <hr>
+      <section id="main-menu-holder">
+        <div class="center-input">
+            <label for="username-input-box">Enter Your Username Below</label>
+            <input class="u-full-width" type="text" placeholder="Your Username" id="username-input-box">
+          </div>
+        <hr>
+        <div class="game-card-holders">
+          <div class="card">
+            <div class="card-container">
+              <h4>Tic-Tac-Toe</h4>
+              <button class="button-primary game-button" id="play-button-tic-tac-toe">Play Game</button>
+            </div>
+          </div>
+          <br>
+          <div class="card">
+            <div class="card-container">
+              <h4>Chess</h4> 
+              <button class="button-primary game-button" id="play-button-chess">Play Game</button>
+            </div>
+          </div>
+          <br>
+          <div class="card">
+            <div class="card-container">
+              <h4>Not Battleship</h4> 
+              <button class="button-primary game-button" id="play-button-battle-shop">Play Game</button>
+            </div>
+          </div>
+          <br>
+          <div class="card">
+            <div class="card-container">
+              <h4>Checkers</h4> 
+              <button class="button-primary game-button" id="play-button-checkers">Play Game</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tic-Tac-Toe -->
+      <section id="tic-tac-toe-board" class="" style="display: none;">
+        <div class="card">
+          <div class="card-container tic-tac-toe-holder">
+            
+          </div>
+        </div>
+      </section>
+
+    </center>
+	</div>
   <script type="text/javascript" src="js/script.js"></script>
 
 </body>
