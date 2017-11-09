@@ -1,0 +1,24 @@
+{
+  "name": "socket-games",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/magicdustin/socket-games.git"
+  },
+  "author": "Dustin Podell",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/magicdustin/socket-games/issues"
+  },
+  "homepage": "https://github.com/magicdustin/socket-games#readme",
+  "dependencies": {
+    "express": "^4.16.2",
+    "serve-favicon": "^2.4.5",
+    "socket.io": "^2.0.4"
+  }
+}
