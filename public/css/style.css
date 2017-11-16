@@ -1,6 +1,6 @@
 #tic-tac-toe-game-board {
-    width: 300px;
-    height: 300px;
+    width: 465px;
+    height: 465px;
     border: 1px solid #dadada;
     margin: 0 auto;
     padding: 0;
@@ -12,8 +12,8 @@
     float: left;
     overflow: hidden;
     text-decoration:none;
-    width: 100px;
-    height: 100px;
+    width: 155px;
+    height: 155px;
     background: #f1f1f1;
     border: 1px solid #ccc;
     border-right: 1px solid #fff;
@@ -40,8 +40,8 @@
 }
 
 #tic-tac-toe-game-board > li:active {
-    width: 100px;
-    height: 100px;
+    width: 155px;
+    height: 155px;
     border: 0;
 }
 
