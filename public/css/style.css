@@ -1,19 +1,19 @@
-#tic-tac-toe-board {
-    width: 300px;
-    height: 300px;
+#tic-tac-toe-game-board {
+    width: 465px;
+    height: 465px;
     border: 1px solid #dadada;
     margin: 0 auto;
     padding: 0;
     margin-bottom: 20px;
 }
 
-#tic-tac-toe-board > li {
+#tic-tac-toe-game-board > li {
     list-style: none;
     float: left;
     overflow: hidden;
     text-decoration:none;
-    width: 100px;
-    height: 100px;
+    width: 155px;
+    height: 155px;
     background: #f1f1f1;
     border: 1px solid #ccc;
     border-right: 1px solid #fff;
@@ -25,23 +25,23 @@
     box-sizing: border-box;
 }
 
-#tic-tac-toe-board > li.x {
+#tic-tac-toe-game-board > li.x {
     font-size: 40px;
     color: #ed4e6e
 }
 
-#tic-tac-toe-board > li.o {
+#tic-tac-toe-game-board > li.o {
     font-size: 40px;
     color: #485b6e;
 }
 
-#tic-tac-toe-board > li:hover {
+#tic-tac-toe-game-board > li:hover {
     background: #f9f9f9;
 }
 
-#tic-tac-toe-board > li:active {
-    width: 100px;
-    height: 100px;
+#tic-tac-toe-game-board > li:active {
+    width: 155px;
+    height: 155px;
     border: 0;
 }
 

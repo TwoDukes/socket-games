@@ -2,7 +2,8 @@
 //     id: "15968732485747",
 //     game: 'ttt',
 //     open: true,
-//     private: false
+//     private: false,
+//     users: []
 // }]
 
 /*
@@ -32,8 +33,9 @@ class Rooms {
                 let newRoom = {
                         id: addRoom.id,
                         game: addRoom.game,
-                        open: true,
-                        private: addRoom.private
+                        open: !addRoom.private,
+                        private: addRoom.private,
+                        users: addRoom.users
                 }
                 this.rooms.push(newRoom);
                 return newRoom;    
@@ -65,11 +67,21 @@ class Rooms {
     getOpenRoom(){
         //get all open rooms
         const openRooms = this.rooms.filter((room) => room.open === true);
+        if(openRooms.length === 0) return false;
         //randomly choose a room from the list
         const rnd = Math.floor(Math.random() * openRooms.length);
-        const selectedOpenRoom = (rnd == 1) ? openRooms.length - 1 : rnd;
+        const selectedOpenRoom = openRooms[(rnd == 1) ? openRooms.length - 1 : rnd];
         //return the selected open room
-        return selectedOpenRoom.id; 
+        return {
+          id: selectedOpenRoom.id, 
+          users: selectedOpenRoom.users,
+          closeRoom:(open = true) => {
+          openRooms.map(room => {
+            if(room.id == selectedOpenRoom.id){
+              room.open = !open;
+            }
+          });
+        }}; 
     }
     
     //get private room by id
