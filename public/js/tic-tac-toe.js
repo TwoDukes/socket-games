@@ -6,16 +6,22 @@ function ticTacToeGame() {
 
 
     ///////Socket incoming messages - START/////
-    socket.on('ttt-join-game', function(res){
-      curRoom = res.room;
-      $('#versus-text').text(username + ' vs. ' + (res.user || '(WAITING)'));
-      console.log(res.first);
-      init(res.first);
-    });
-
     socket.on('ttt-new-game', function(res){
       curRoom = res.room;
       $('#versus-text').text(username + ' vs. ' + '(WAITING)');
+    });
+
+    socket.on('ttt-join-game', function(res){
+      curRoom = res.room;
+      $('#versus-text').text(username + ' vs. ' + (res.user || '(WAITING)'));
+      console.log('Your turn: ' + res.first);
+      init(res.first);
+    });
+
+    socket.on('ttt-reset-game', function(res){
+      console.log(`${res.winner} won!`)
+      console.log('Your turn: ' + res.first);
+      init(res.first);
     });
 
     socket.on('player-moved-ttt', function(pos, context){
@@ -42,6 +48,7 @@ function ticTacToeGame() {
     var playerTwoScore = 0;
     
     var turns;
+    var firstTurn;
     var currentContext;
     var clickedBoxes = [];
 
@@ -62,6 +69,7 @@ function ticTacToeGame() {
     // Constructor
     var init = function(clickable) {
         turns = 0;
+        firstTurn = clickable;
         
         // Get current context
         currentContext = computeContext();
@@ -100,7 +108,7 @@ function ticTacToeGame() {
 
           
           if(checkStatus()) {
-              gameWon();
+            resetGameHandler();
           }
           
           turns++;
@@ -122,7 +130,7 @@ function ticTacToeGame() {
               board[newPos[0]][newPos[1]] = computeContext() == 'x' ? 1 : 0;
               
               if(checkStatus()) {
-                  gameWon();
+                resetGameHandler();
               }
               
               turns++;
@@ -170,21 +178,7 @@ function ticTacToeGame() {
             }
         }
     }
-    var gameWon = function() {
-        AbleToBoxClick(false);
-        
-        // show game won message
-        gameMessages.className = 'player-' + computeContext() + '-win';
-        
-        // update the player score
-        switch(computeContext()) {
-            case 'x':
-                playerOneScoreCard.innerHTML = ++playerOneScore;
-                break;
-            case 'o':
-                playerTwoScoreCard.innerHTML = ++playerTwoScore;
-        }
-    }
+
     // Tells user when game is a draw.
     var gameDraw = function() {
         gameMessages.className = 'draw';
@@ -193,10 +187,13 @@ function ticTacToeGame() {
     
     // Reset game to play again  //TODO: This breaks the turn system, fix it
     var resetGameHandler = function() {
+      console.log('Reseting game')
         clickedBoxes = [];
         AbleToBoxClick(false);
-        init(true);
-        
+        if(turns % 2 == 0 && firstTurn == true){
+          console.log('wow you won!')
+          socket.emit('ttt-game-end', username, curRoom, firstTurn);
+        }
         // Go over all the li nodes and remove className of either x,o
         // clear out innerHTML
         for(var i = 0; i < boxes.length; i++) {

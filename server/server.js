@@ -78,6 +78,13 @@ io.on('connection', (socket) => {
       socket.broadcast.to(roomId).emit('player-moved-ttt', pos);
     })
 
+    socket.on('ttt-game-end', (winner, room, firstTurn) => {
+      console.log(winner + ' won last game, starting new game');
+      //start new game and flips users first turns
+      socket.emit('ttt-reset-game', {winner, first:!firstTurn});
+      socket.broadcast.to(room).emit('ttt-reset-game', {winner, first:firstTurn});
+    });
+
 });
 /** 
 //END: HANDLES ALL SOCKET CONNECTIONS TO SERVER
