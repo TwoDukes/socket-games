@@ -43,17 +43,17 @@ function ticTacToeGame() {
     
     var turns;
     var currentContext;
-    var clickBoxes = [];
+    var clickedBoxes = [];
 
     AbleToBoxClick = (canClick) => {
       if(canClick) {
         boxes.forEach((box) => {
-          if(!(clickBoxes.indexOf(box) > -1))
+          if(!(clickedBoxes.indexOf(box) > -1))
             box.addEventListener('click', clickHandler, false);
           }) 
       }else {
         boxes.forEach((box) => {
-          if(!(clickBoxes.indexOf(box) > -1))
+          if(!(clickedBoxes.indexOf(box) > -1))
             box.removeEventListener('click', clickHandler);
           }) 
       }
@@ -94,9 +94,8 @@ function ticTacToeGame() {
           const Box = document.querySelector(`[data-pos='${pos}']`)
           board[pos[0]][pos[1]] = computeContext() == 'x' ? 1 : 0;
 
-          clickBoxes.push(Box);
+          clickedBoxes.push(Box);
           
-          console.log(this)
           socket.emit('player-move-ttt', curRoom, pos);
 
           
@@ -113,7 +112,7 @@ function ticTacToeGame() {
         // Bind the dom element to the opponent move
         var OpponentHandler = function(newPos) {
           const Box = document.querySelector(`[data-pos='${newPos}']`)
-          clickBoxes.push(Box);
+          clickedBoxes.push(Box);
           
           Box.removeEventListener('click', clickHandler);
             
@@ -172,7 +171,7 @@ function ticTacToeGame() {
         }
     }
     var gameWon = function() {
-        clearEvents();
+        AbleToBoxClick(false);
         
         // show game won message
         gameMessages.className = 'player-' + computeContext() + '-win';
@@ -189,19 +188,14 @@ function ticTacToeGame() {
     // Tells user when game is a draw.
     var gameDraw = function() {
         gameMessages.className = 'draw';
-        clearEvents();
+        AbleToBoxClick(false);
     }
     
-    // Stops user from clicking empty cells after game is over
-    var clearEvents = function() {
-        for(var i = 0; i < boxes.length; i++) {
-            boxes[i].removeEventListener('click', clickHandler);
-        }
-    }
-    // Reset game to play again
+    // Reset game to play again  //TODO: This breaks the turn system, fix it
     var resetGameHandler = function() {
-        clearEvents();
-        init();
+        clickedBoxes = [];
+        AbleToBoxClick(false);
+        init(true);
         
         // Go over all the li nodes and remove className of either x,o
         // clear out innerHTML
