@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>Socket Games</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <!-- Change later bc https -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  <!-- CSS –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- JS –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script type="text/javascript" src="js/libs/socket.io.slim.js"></script>
+  <!-- Remove later -->
+  <script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="images/favicon.ico">
+
+</head>
+<body>
+	
+
+	<div class="container">
+    <center>
+      <!-- Main Menu -->
+      <br>
+      <h1 id="game-title">Games</h1>
+      <hr>
+      <section id="main-menu-holder">
+        <div class="center-input">
+            <label for="username-input-box">Enter Your Username Below</label>
+            <input class="u-full-width" type="text" placeholder="Your Username" id="username-input-box">
+          </div>
+        <hr>
+        <div class="game-card-holders">
+          <div class="card">
+            <div class="card-container">
+              <h4>Tic-Tac-Toe</h4>
+              <button class="button-primary game-button" id="play-button-tic-tac-toe">Play Game</button>
+            </div>
+          </div>
+          <br>
+          <div class="card">
+            <div class="card-container">
+              <h4>Chess</h4> 
+              <button class="button-primary game-button" id="play-button-chess">Play Game</button>
+            </div>
+          </div>
+          <br>
+          <div class="card">
+            <div class="card-container">
+              <h4>Not Battleship</h4> 
+              <button class="button-primary game-button" id="play-button-battle-shop">Play Game</button>
+            </div>
+          </div>
+          <br>
+          <div class="card">
+            <div class="card-container">
+              <h4>Checkers</h4> 
+              <button class="button-primary game-button" id="play-button-checkers">Play Game</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tic-Tac-Toe -->
+      <section id="tic-tac-toe-board" class="" style="display: none;">
+        <h5 id="versus-text">Something Went Wrong</h5>
+        <hr>
+        <div class="card">
+          <div class="card-container tic-tac-toe-holder">
+            <ul id="tic-tac-toe-game-board">
+                <!-- first row -->
+                <li data-pos="0,0"></li>
+                <li data-pos="0,1"></li>
+                <li data-pos="0,2"></li>
+                <!-- second row -->
+                <li data-pos="1,0"></li>
+                <li data-pos="1,1"></li>
+                <li data-pos="1,2"></li>
+                <!-- third row -->
+                <li data-pos="2,0"></li>
+                <li data-pos="2,1"></li> 
+                <li data-pos="2,2"></li>
+            </ul>
+            
+            <!-- <button id="reset-game">Reset Game</button> -->
+          </div>
+        </div>
+      </section>
+
+    </center>
+	</div>
+  <script type="text/javascript" src="js/script.js"></script>
+  <script type="text/javascript" src="js/tic-tac-toe.js"></script>
+
+</body>
+</html>

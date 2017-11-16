@@ -3,9 +3,10 @@ const http = require('http');
 const express = require('express');
 const favicon = require('serve-favicon');
 const socketIO = require('socket.io');
+const {Rooms} = require('./libs/rooms');
 
 const publicPath = path.join(__dirname, '../public');
-const port = process.env.PORT || 4200;
+const port = process.env.PORT || 3000;
 
 //setup the server
 var app = express();
@@ -14,8 +15,9 @@ var io = socketIO(server);
 
 //serve up our static web page
 app.use(express.static(publicPath));
-app.use(favicon(path.join(__dirname, '../public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, '../public','images', 'favicon.ico')));
 
+const rooms = new Rooms();
 
 /** 
 //START: HANDLES ALL SOCKET CONNECTIONS TO SERVER
@@ -27,6 +29,61 @@ io.on('connection', (socket) => {
     //lets chatroom know a user has disconnected and updates user list
     socket.on('disconnect', () => {
 
+    });
+
+    socket.on('ttt-join', (username, privateCode, callback) => {
+      const openRoom = rooms.getOpenRoom();
+      //if open room is available join it
+      if(openRoom.id){
+        console.log(username + " is joining room: " + openRoom.id)
+        //join new room
+        socket.join(openRoom.id);
+        //choose a user to go first
+        const firstTurn = Math.round(Math.random()) == 0 ? false : true;
+        //send joining user the room id and other user
+        socket.emit('ttt-join-game', {
+          user : openRoom.users[0] || "Anonymous",
+          room: openRoom.id,
+          first:firstTurn
+        });
+        //send other user the room id and the new users
+        socket.broadcast.to(openRoom.id).emit('ttt-join-game', {
+          user : username || "Anonymous",
+          room: openRoom.id,
+          first:!firstTurn
+        });
+        openRoom.closeRoom();
+      //else create and join a new room
+      }else {
+        console.log(username + " is creating room: " + socket.id)
+        //create new room
+        rooms.addRoom( {
+          id: socket.id,
+          game: 'ttt',
+          privateCode,
+          users: [username]
+        }, () => alert("EVERYTHING IS BROKEN"));
+        //join it
+        socket.join(socket.id);
+        //send user room id
+        io.to(socket.id).emit('ttt-new-game', {
+          room: socket.id
+        });
+      }
+
+    	callback();
+    })
+
+    socket.on('player-move-ttt', (roomId, pos) => {
+      console.log(roomId + 'player made move on ' + pos);
+      socket.broadcast.to(roomId).emit('player-moved-ttt', pos);
+    })
+
+    socket.on('ttt-game-end', (winner, room, firstTurn) => {
+      console.log(winner + ' won last game, starting new game');
+      //start new game and flips users first turns
+      socket.emit('ttt-reset-game', {winner, first:!firstTurn});
+      socket.broadcast.to(room).emit('ttt-reset-game', {winner, first:firstTurn});
     });
 
 });
