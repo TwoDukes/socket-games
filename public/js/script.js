@@ -28,9 +28,7 @@ var startTicTacToe = function() {
 			$('#game-title').text("Tic-Tac-Toe");
 		});
 
-		socket.emit('ttt-join', username,'',function(res){
-      
-		});
+		socket.emit('ttt-join', username,'');
 
 		
 		ticTacToeGame();

@@ -27,16 +27,20 @@ io.on('connection', (socket) => {
 
     socket.on('disconnect', () => {
       console.log('player has left. ' + socket.id)
+      //find room user was in
       const tempRoom = rooms.getSpecificRoomByUserId(socket.id);
+      //if it still exists
       if(tempRoom){
+        //remove room
         rooms.removeRoom(tempRoom.id);
         console.log('user has left room ' + tempRoom.id + ". Room is being removed");
+        //tell user in room to find or create a new one
         socket.broadcast.to(tempRoom.id).emit('player-left-ttt');
       }
 
     })
 
-    socket.on('ttt-join', (username, privateCode, callback) => {
+    socket.on('ttt-join', (username, privateCode) => {
       const openRoom = rooms.getOpenRoom();
       //if open room is available join it
       if(openRoom.id){
@@ -80,12 +84,11 @@ io.on('connection', (socket) => {
           room: socket.id
         });
       }
-
-    	callback();
     })
 
     socket.on('player-move-ttt', (roomId, pos) => {
       console.log(roomId + 'player made move on ' + pos);
+      //send move player just made to other user
       socket.broadcast.to(roomId).emit('player-moved-ttt', pos);
     })
 

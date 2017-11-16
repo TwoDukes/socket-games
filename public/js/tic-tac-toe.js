@@ -5,14 +5,14 @@ function ticTacToeGame() {
       curRoom = res.room;
       $('#versus-text').text(username + ' vs. ' + '(WAITING)');
     });
-
+    //shows opponent name up top and starts the game
     socket.on('ttt-join-game', function(res){
       curRoom = res.room;
       $('#versus-text').text(username + ' vs. ' + (res.user || '(WAITING)'));
       console.log('Your turn: ' + res.first);
       init(res.first);
     });
-
+    //resets the game for the player
     socket.on('ttt-reset-game', function(res){
       if(res.winner)
         console.log(`${res.winner} won!`)
@@ -22,14 +22,14 @@ function ticTacToeGame() {
       console.log('Your turn: ' + res.first);
       init(res.first);
     });
-
+    //tells player the move the opponent just made
     socket.on('player-moved-ttt', function(pos, context){
       OpponentHandler(pos);
     });
-
+    //tells player to create or find a new room because opponent left
     socket.on('player-left-ttt', () => {
       $('#versus-text').text(username + ' vs. ' + '(WAITING)');
-      socket.emit('ttt-join', username,'',function(res){});
+      socket.emit('ttt-join', username,'');
     });
 
     ///////Socket incoming messages - END/////
@@ -184,7 +184,6 @@ function ticTacToeGame() {
 
     // Tells user when game is a draw.
     var gameDraw = function() {
-
         AbleToBoxClick(false);
         resetGameHandler(false);
     }
@@ -194,20 +193,19 @@ function ticTacToeGame() {
       console.log('Reseting game')
         clickedBoxes = [];
         AbleToBoxClick(false);
+        //if player made the winning move
         if(turns % 2 == 0 && firstTurn && winnerExists){
           console.log('wow you won!')
           socket.emit('ttt-game-end', username, curRoom, firstTurn);
+          //else if game ended with no winner
+          //firstTurn is added so only one player resets the game
         } else if(!winnerExists && firstTurn){
           socket.emit('ttt-game-end', "", curRoom, firstTurn);
         }
 
         resetBoard();
-        // Go over all the li nodes and remove className of either x,o
-        // clear out innerHTML
-        
-
     }
-    
+    //resets the tiles on the board
     const resetBoard = () => {
         clickedBoxes = [];
         for(var i = 0; i < boxes.length; i++) {

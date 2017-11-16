@@ -70,11 +70,11 @@ class Rooms {
     getCurrentRooms(){
         return this.rooms;
     }
-
+    //gets a room by the room id
     getSpecificRoom(id){
       return this.rooms.filter((room) => room.id === id)[0];
     }
-
+    //gets a room if it includes a user(by id)
     getSpecificRoomByUserId(userId){
       return this.rooms.filter((room) => 
         room.userIds.filter((id) => id === userId).length > 0 )[0];
