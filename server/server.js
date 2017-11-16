@@ -69,6 +69,11 @@ io.on('connection', (socket) => {
     	callback();
     })
 
+    socket.on('player-move-ttt', (roomId, pos, context) => {
+      console.log(roomId + 'player made move on ' + pos);
+      socket.broadcast.to(roomId).emit('player-moved-ttt', pos, context);
+    })
+
 });
 /** 
 //END: HANDLES ALL SOCKET CONNECTIONS TO SERVER

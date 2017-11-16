@@ -8,16 +8,6 @@ socket.on('connect', function() {
 	console.log('Client connected');
 });
 
-socket.on('ttt-join-game', function(res){
-  curRoom = res.room;
-	$('#versus-text').text(username + ' vs. ' + (res.user || '(WAITING)'));
-});
-
-socket.on('ttt-new-game', function(res){
-  curRoom = res.room;
-	$('#versus-text').text(username + ' vs. ' + '(WAITING)');
-});
-
 ///////Socket incoming messages - END/////
 
 $('document').ready(function() {

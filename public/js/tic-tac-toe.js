@@ -1,5 +1,30 @@
 
+
+
 function ticTacToeGame() {
+
+
+
+    ///////Socket incoming messages - START/////
+    socket.on('ttt-join-game', function(res){
+      curRoom = res.room;
+      $('#versus-text').text(username + ' vs. ' + (res.user || '(WAITING)'));
+    });
+
+    socket.on('ttt-new-game', function(res){
+      curRoom = res.room;
+      $('#versus-text').text(username + ' vs. ' + '(WAITING)');
+    });
+
+    socket.on('player-moved-ttt', function(pos, context){
+      OpponentHandler(pos);
+    });
+
+    ///////Socket incoming messages - END/////
+
+
+
+
     // Elements
     var game = document.getElementById('tic-tac-toe-board');
     var boxes = document.querySelectorAll('li');
@@ -45,7 +70,6 @@ function ticTacToeGame() {
     // Bind the dom element to the click callback
     var clickHandler = function() {
       
-      //if () {
         this.removeEventListener('click', clickHandler);
         
           this.className = currentContext;
@@ -53,7 +77,9 @@ function ticTacToeGame() {
           
           var pos = this.getAttribute('data-pos').split(',');
           board[pos[0]][pos[1]] = computeContext() == 'x' ? 1 : 0;
-
+          
+          console.log(this)
+          socket.emit('player-move-ttt', curRoom, pos);
 
           
           if(checkStatus()) {
@@ -62,12 +88,28 @@ function ticTacToeGame() {
           
           turns++;
           currentContext = computeContext();
-          turnDisplay.className = currentContext;
-      //} else {
-
-      //}
-        
+          turnDisplay.className = currentContext;     
     }
+
+        // Bind the dom element to the opponent move
+        var OpponentHandler = function(newPos) {
+          const context = document.querySelector(`[data-pos='${newPos}']`)
+          
+          context.removeEventListener('click', clickHandler);
+            
+          context.className = currentContext;
+          context.innerHTML = currentContext;
+              
+              board[newPos[0]][newPos[1]] = computeContext() == 'x' ? 1 : 0;
+              
+              if(checkStatus()) {
+                  gameWon();
+              }
+              
+              turns++;
+              currentContext = computeContext();
+              turnDisplay.className = currentContext;     
+        }
     
     
     // Check to see if player has won
