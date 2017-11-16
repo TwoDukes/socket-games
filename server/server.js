@@ -41,7 +41,7 @@ io.on('connection', (socket) => {
           room: openRoom.id
         });
 
-        socket.broadcast.emit('ttt-join-game', {
+        socket.broadcast.to(openRoom.id).emit('ttt-join-game', {
           user : username || "Anonymous",
           room: openRoom.id
         });
