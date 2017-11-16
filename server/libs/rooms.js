@@ -2,7 +2,8 @@
 //     id: "15968732485747",
 //     game: 'ttt',
 //     open: true,
-//     private: false
+//     private: false,
+//     users: []
 // }]
 
 /*
@@ -33,7 +34,8 @@ class Rooms {
                         id: addRoom.id,
                         game: addRoom.game,
                         open: !addRoom.private,
-                        private: addRoom.private
+                        private: addRoom.private,
+                        users: addRoom.users
                 }
                 this.rooms.push(newRoom);
                 return newRoom;    
@@ -72,6 +74,7 @@ class Rooms {
         //return the selected open room
         return {
           id: selectedOpenRoom.id, 
+          users: selectedOpenRoom.users,
           closeRoom:(open = true) => {
           openRooms.map(room => {
             if(room.id == selectedOpenRoom.id){

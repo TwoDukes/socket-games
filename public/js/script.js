@@ -9,9 +9,13 @@ socket.on('connect', function() {
 });
 
 socket.on('ttt-join-game', function(res){
-  console.log(res.user);
   curRoom = res.room;
 	$('#versus-text').text(username + ' vs. ' + (res.user || '(WAITING)'));
+});
+
+socket.on('ttt-new-game', function(res){
+  curRoom = res.room;
+	$('#versus-text').text(username + ' vs. ' + '(WAITING)');
 });
 
 ///////Socket incoming messages - END/////
@@ -35,7 +39,7 @@ var startTicTacToe = function() {
 		});
 
 		socket.emit('ttt-join', username,'',function(res){
-      $('#versus-text').text(username + ' vs. (WAITING)');
+      
 		});
 
 		
