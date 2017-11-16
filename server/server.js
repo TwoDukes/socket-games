@@ -24,12 +24,17 @@ const rooms = new Rooms();
 **/
 io.on('connection', (socket) => {
     console.log('new user has joined');
-   
 
-    //lets chatroom know a user has disconnected and updates user list
     socket.on('disconnect', () => {
+      console.log('player has left. ' + socket.id)
+      const tempRoom = rooms.getSpecificRoomByUserId(socket.id);
+      if(tempRoom){
+        rooms.removeRoom(tempRoom.id);
+        console.log('user has left room ' + tempRoom.id + ". Room is being removed");
+        socket.broadcast.to(tempRoom.id).emit('player-left-ttt');
+      }
 
-    });
+    })
 
     socket.on('ttt-join', (username, privateCode, callback) => {
       const openRoom = rooms.getOpenRoom();
@@ -52,6 +57,10 @@ io.on('connection', (socket) => {
           room: openRoom.id,
           first:!firstTurn
         });
+        //add user id to room
+        rooms.rooms.filter((room) => room.id === openRoom.id)[0].userIds.push(socket.id);
+        //add username to room
+        rooms.rooms.filter((room) => room.id === openRoom.id)[0].users.push(username);
         openRoom.closeRoom();
       //else create and join a new room
       }else {
@@ -61,7 +70,8 @@ io.on('connection', (socket) => {
           id: socket.id,
           game: 'ttt',
           privateCode,
-          users: [username]
+          users: [username],
+          userIds: [socket.id]
         }, () => alert("EVERYTHING IS BROKEN"));
         //join it
         socket.join(socket.id);

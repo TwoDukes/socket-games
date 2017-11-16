@@ -1,9 +1,4 @@
-
-
-
 function ticTacToeGame() {
-
-
 
     ///////Socket incoming messages - START/////
     socket.on('ttt-new-game', function(res){
@@ -19,13 +14,22 @@ function ticTacToeGame() {
     });
 
     socket.on('ttt-reset-game', function(res){
-      console.log(`${res.winner} won!`)
+      if(res.winner)
+        console.log(`${res.winner} won!`)
+      else
+        console.log(`Draw!`)
+
       console.log('Your turn: ' + res.first);
       init(res.first);
     });
 
     socket.on('player-moved-ttt', function(pos, context){
       OpponentHandler(pos);
+    });
+
+    socket.on('player-left-ttt', () => {
+      $('#versus-text').text(username + ' vs. ' + '(WAITING)');
+      socket.emit('ttt-join', username,'',function(res){});
     });
 
     ///////Socket incoming messages - END/////
@@ -68,6 +72,7 @@ function ticTacToeGame() {
     
     // Constructor
     var init = function(clickable) {
+        resetBoard();
         turns = 0;
         firstTurn = clickable;
         
@@ -82,7 +87,7 @@ function ticTacToeGame() {
         // bind events
         if(clickable) AbleToBoxClick(true);
         
-        resetGame.addEventListener('click', resetGameHandler, false);
+        //resetGame.addEventListener('click', resetGameHandler, false);
     }
     
     //Keeps track of player's turn
@@ -113,8 +118,7 @@ function ticTacToeGame() {
           
           turns++;
           AbleToBoxClick(false);
-          currentContext = computeContext();
-          turnDisplay.className = currentContext;     
+          currentContext = computeContext(); 
     }
 
         // Bind the dom element to the opponent move
@@ -136,7 +140,6 @@ function ticTacToeGame() {
               turns++;
               AbleToBoxClick(true);
               currentContext = computeContext();
-              turnDisplay.className = currentContext;     
         }
     
     
@@ -181,30 +184,36 @@ function ticTacToeGame() {
 
     // Tells user when game is a draw.
     var gameDraw = function() {
-        gameMessages.className = 'draw';
+
         AbleToBoxClick(false);
+        resetGameHandler(false);
     }
     
     // Reset game to play again  //TODO: This breaks the turn system, fix it
-    var resetGameHandler = function() {
+    var resetGameHandler = function(winnerExists = true) {
       console.log('Reseting game')
         clickedBoxes = [];
         AbleToBoxClick(false);
-        if(turns % 2 == 0 && firstTurn == true){
+        if(turns % 2 == 0 && firstTurn && winnerExists){
           console.log('wow you won!')
           socket.emit('ttt-game-end', username, curRoom, firstTurn);
+        } else if(!winnerExists && firstTurn){
+          socket.emit('ttt-game-end', "", curRoom, firstTurn);
         }
+
+        resetBoard();
         // Go over all the li nodes and remove className of either x,o
         // clear out innerHTML
-        for(var i = 0; i < boxes.length; i++) {
-            boxes[i].className = '';
-            boxes[i].innerHTML = '';
-        }
         
-        // Change Who's turn class back to player1
-        turnDisplay.className = currentContext;
-        gameMessages.className = '';
+
     }
     
-    //game && init();
+    const resetBoard = () => {
+        clickedBoxes = [];
+        for(var i = 0; i < boxes.length; i++) {
+          boxes[i].className = '';
+          boxes[i].innerHTML = '';
+        }
+    }
 }
+

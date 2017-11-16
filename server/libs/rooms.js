@@ -3,7 +3,8 @@
 //     game: 'ttt',
 //     open: true,
 //     private: false,
-//     users: []
+//     users: [],
+//     userIds: []
 // }]
 
 /*
@@ -35,7 +36,8 @@ class Rooms {
                         game: addRoom.game,
                         open: !addRoom.private,
                         private: addRoom.private,
-                        users: addRoom.users
+                        users: addRoom.users,
+                        userIds: addRoom.userIds
                 }
                 this.rooms.push(newRoom);
                 return newRoom;    
@@ -44,7 +46,7 @@ class Rooms {
     
     //remove user and return removed user by id
     removeFromRoom(id){
-        let curRoom = this.rooms.filter((room) => id === room.id);
+        const curRoom = this.rooms.filter((room) => id === room.id);
         //if room exists
         if(curRoom.length > 0){
             //lower user count
@@ -52,15 +54,30 @@ class Rooms {
             //if count is at zero remove the room
             if(curRoom[0].userCount <= 0){
                 this.rooms = this.rooms.filter((room) => room.id != id);
+                return false;
             }
+            return true;
         }else{
             return undefined; //cannot remove user from room that does not exist
         }
+    }
+    //removes a room entirely
+    removeRoom(id){
+      this.rooms = this.rooms.filter((room) => room.id != id)
     }
 
     //get all active rooms
     getCurrentRooms(){
         return this.rooms;
+    }
+
+    getSpecificRoom(id){
+      return this.rooms.filter((room) => room.id === id)[0];
+    }
+
+    getSpecificRoomByUserId(userId){
+      return this.rooms.filter((room) => 
+        room.userIds.filter((id) => id === userId).length > 0 )[0];
     }
 
     //get active room that has open space
