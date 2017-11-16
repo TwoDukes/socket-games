@@ -21,7 +21,7 @@ class Rooms {
         this.rooms = [];
     }
 
-    //create a new user
+    //create a new room
     addRoom(addRoom, callback){
 
             let curRoom = this.rooms.filter((room) => addRoom.id === room.id);
@@ -56,10 +56,12 @@ class Rooms {
         }
     }
 
+    //get all active rooms
     getCurrentRooms(){
         return this.rooms;
     }
 
+    //get active room that has open space
     getOpenRoom(){
         //get all open rooms
         const openRooms = this.rooms.filter((room) => room.open === true);
@@ -70,6 +72,7 @@ class Rooms {
         return selectedOpenRoom.id; 
     }
     
+    //get private room by id
     getPrivateRoom(key, callback){
         //get private room
         const privateRoom = this.rooms.filter((room) => room.id === key);
