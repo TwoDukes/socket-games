@@ -6,7 +6,7 @@ const socketIO = require('socket.io');
 const {Rooms} = require('./libs/rooms');
 
 const publicPath = path.join(__dirname, '../public');
-const port = process.env.PORT || 4200;
+const port = process.env.PORT || 3000;
 
 //setup the server
 var app = express();
