@@ -32,15 +32,16 @@ io.on('connection', (socket) => {
 
     socket.on('ttt-join', (username, privateCode, callback) => {
       const openRoom = rooms.getOpenRoom();
-      console.log(openRoom)
-
-      if(openRoom){
-        console.log(username + " is joining room: " + openRoom)
-        socket.join(openRoom);
-        io.to(socket.id).emit('ttt-join-game', {
+      //if open room is available join it
+      if(openRoom.id){
+        console.log(username + " is joining room: " + openRoom.id)
+        socket.join(openRoom.id);
+        io.to(openRoom.id).emit('ttt-join-game', {
           user : username || "Anonymous",
-          room: openRoom
+          room: openRoom.id
         });
+        openRoom.closeRoom();
+      //else create and join a new room
       }else {
         console.log(username + " is creating room: " + socket.id)
         rooms.addRoom( {
@@ -56,11 +57,7 @@ io.on('connection', (socket) => {
         });
       }
 
-
-      console.log(username);
-    	
-
-    	callback('error');
+    	callback();
     })
 
 });

@@ -35,7 +35,6 @@ var startTicTacToe = function() {
 		});
 
 		socket.emit('ttt-join', username,'',function(res){
-      console.log(res);
       $('#versus-text').text(username + ' vs. (WAITING)');
 		});
 

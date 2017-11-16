@@ -70,7 +70,15 @@ class Rooms {
         const rnd = Math.floor(Math.random() * openRooms.length);
         const selectedOpenRoom = openRooms[(rnd == 1) ? openRooms.length - 1 : rnd];
         //return the selected open room
-        return selectedOpenRoom.id; 
+        return {
+          id: selectedOpenRoom.id, 
+          closeRoom:(open = true) => {
+          openRooms.map(room => {
+            if(room.id == selectedOpenRoom.id){
+              room.open = !open;
+            }
+          });
+        }}; 
     }
     
     //get private room by id
