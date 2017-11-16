@@ -9,6 +9,8 @@ function ticTacToeGame() {
     socket.on('ttt-join-game', function(res){
       curRoom = res.room;
       $('#versus-text').text(username + ' vs. ' + (res.user || '(WAITING)'));
+      console.log(res.first);
+      init(res.first);
     });
 
     socket.on('ttt-new-game', function(res){
@@ -41,9 +43,24 @@ function ticTacToeGame() {
     
     var turns;
     var currentContext;
+    var clickBoxes = [];
+
+    AbleToBoxClick = (canClick) => {
+      if(canClick) {
+        boxes.forEach((box) => {
+          if(!(clickBoxes.indexOf(box) > -1))
+            box.addEventListener('click', clickHandler, false);
+          }) 
+      }else {
+        boxes.forEach((box) => {
+          if(!(clickBoxes.indexOf(box) > -1))
+            box.removeEventListener('click', clickHandler);
+          }) 
+      }
+    }
     
     // Constructor
-    var init = function() {
+    var init = function(clickable) {
         turns = 0;
         
         // Get current context
@@ -55,9 +72,7 @@ function ticTacToeGame() {
         board[2] = new Array(3);
         
         // bind events
-        for(var i = 0; i < boxes.length; i++) {
-            boxes[i].addEventListener('click', clickHandler, false);
-        }
+        if(clickable) AbleToBoxClick(true);
         
         resetGame.addEventListener('click', resetGameHandler, false);
     }
@@ -76,7 +91,10 @@ function ticTacToeGame() {
           this.innerHTML = currentContext;
           
           var pos = this.getAttribute('data-pos').split(',');
+          const Box = document.querySelector(`[data-pos='${pos}']`)
           board[pos[0]][pos[1]] = computeContext() == 'x' ? 1 : 0;
+
+          clickBoxes.push(Box);
           
           console.log(this)
           socket.emit('player-move-ttt', curRoom, pos);
@@ -87,18 +105,20 @@ function ticTacToeGame() {
           }
           
           turns++;
+          AbleToBoxClick(false);
           currentContext = computeContext();
           turnDisplay.className = currentContext;     
     }
 
         // Bind the dom element to the opponent move
         var OpponentHandler = function(newPos) {
-          const context = document.querySelector(`[data-pos='${newPos}']`)
+          const Box = document.querySelector(`[data-pos='${newPos}']`)
+          clickBoxes.push(Box);
           
-          context.removeEventListener('click', clickHandler);
+          Box.removeEventListener('click', clickHandler);
             
-          context.className = currentContext;
-          context.innerHTML = currentContext;
+          Box.className = currentContext;
+          Box.innerHTML = currentContext;
               
               board[newPos[0]][newPos[1]] = computeContext() == 'x' ? 1 : 0;
               
@@ -107,6 +127,7 @@ function ticTacToeGame() {
               }
               
               turns++;
+              AbleToBoxClick(true);
               currentContext = computeContext();
               turnDisplay.className = currentContext;     
         }
@@ -194,5 +215,5 @@ function ticTacToeGame() {
         gameMessages.className = '';
     }
     
-    game && init();
+    //game && init();
 }

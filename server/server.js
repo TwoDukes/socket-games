@@ -37,15 +37,19 @@ io.on('connection', (socket) => {
         console.log(username + " is joining room: " + openRoom.id)
         //join new room
         socket.join(openRoom.id);
+        //choose a user to go first
+        const firstTurn = Math.round(Math.random()) == 0 ? false : true;
         //send joining user the room id and other user
         socket.emit('ttt-join-game', {
           user : openRoom.users[0] || "Anonymous",
-          room: openRoom.id
+          room: openRoom.id,
+          first:firstTurn
         });
         //send other user the room id and the new users
         socket.broadcast.to(openRoom.id).emit('ttt-join-game', {
           user : username || "Anonymous",
-          room: openRoom.id
+          room: openRoom.id,
+          first:!firstTurn
         });
         openRoom.closeRoom();
       //else create and join a new room
