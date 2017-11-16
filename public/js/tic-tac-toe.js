@@ -45,7 +45,7 @@ function ticTacToeGame() {
     // Bind the dom element to the click callback
     var clickHandler = function() {
       
-      if () {
+      //if () {
         this.removeEventListener('click', clickHandler);
         
           this.className = currentContext;
@@ -63,9 +63,9 @@ function ticTacToeGame() {
           turns++;
           currentContext = computeContext();
           turnDisplay.className = currentContext;
-      } else {
+      //} else {
 
-      }
+      //}
         
     }
     
