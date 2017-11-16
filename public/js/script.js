@@ -1,15 +1,20 @@
 // #TODO: Change later
 let username = '';
+let curRoom = '';
 var socket = io.connect();
 
+///////Socket incoming messages - START/////
 socket.on('connect', function() {
 	console.log('Client connected');
 });
 
-// socket.on('ttt-new-game', function(res){
-// 	console.log(res.user);
-// 	$('#versus-text').text(username + ' vs. ' + res.user);
-// });
+socket.on('ttt-join-game', function(res){
+  console.log(res.user);
+  curRoom = res.room;
+	$('#versus-text').text(username + ' vs. ' + (res.user || '(WAITING)'));
+});
+
+///////Socket incoming messages - END/////
 
 $('document').ready(function() {
 	// Tic-tac-toe button click listener
@@ -29,11 +34,12 @@ var startTicTacToe = function() {
 			$('#game-title').text("Tic-Tac-Toe");
 		});
 
-		// socket.emit('ttt-join', username ,function(res){
-		// 	console.log(res);
-		// });
+		socket.emit('ttt-join', username,'',function(res){
+      console.log(res);
+      $('#versus-text').text(username + ' vs. (WAITING)');
+		});
 
-		$('#versus-text').text(username + ' vs. (WAITING)');
+		
 		ticTacToeGame();
 
 		$('#tic-tac-toe-board').show();

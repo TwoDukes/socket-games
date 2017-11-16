@@ -32,7 +32,7 @@ class Rooms {
                 let newRoom = {
                         id: addRoom.id,
                         game: addRoom.game,
-                        open: true,
+                        open: !addRoom.private,
                         private: addRoom.private
                 }
                 this.rooms.push(newRoom);
@@ -65,9 +65,10 @@ class Rooms {
     getOpenRoom(){
         //get all open rooms
         const openRooms = this.rooms.filter((room) => room.open === true);
+        if(openRooms.length === 0) return false;
         //randomly choose a room from the list
         const rnd = Math.floor(Math.random() * openRooms.length);
-        const selectedOpenRoom = (rnd == 1) ? openRooms.length - 1 : rnd;
+        const selectedOpenRoom = openRooms[(rnd == 1) ? openRooms.length - 1 : rnd];
         //return the selected open room
         return selectedOpenRoom.id; 
     }

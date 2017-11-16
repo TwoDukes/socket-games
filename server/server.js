@@ -30,14 +30,38 @@ io.on('connection', (socket) => {
 
     });
 
-    // socket.on('ttt-join', (username, callback) => {
+    socket.on('ttt-join', (username, privateCode, callback) => {
+      const openRoom = rooms.getOpenRoom();
+      console.log(openRoom)
 
-    // 	socket.emit('ttt-new-game', {
-    // 		user : 'Dustin' 
-    // 	});
+      if(openRoom){
+        console.log(username + " is joining room: " + openRoom)
+        socket.join(openRoom);
+        io.to(socket.id).emit('ttt-join-game', {
+          user : username || "Anonymous",
+          room: openRoom
+        });
+      }else {
+        console.log(username + " is creating room: " + socket.id)
+        rooms.addRoom( {
+          id: socket.id,
+          game: 'ttt',
+          privateCode
+        }, () => alert("EVERYTHING IS BROKEN"));
+        socket.join(socket.id);
 
-    // 	callback('error');
-    // })
+        io.to(socket.id).emit('ttt-join-game', {
+          user : username || "Anonymous",
+          room: socket.id
+        });
+      }
+
+
+      console.log(username);
+    	
+
+    	callback('error');
+    })
 
 });
 /** 
