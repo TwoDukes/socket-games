@@ -1,4 +1,4 @@
-#tic-tac-toe-board {
+#tic-tac-toe-game-board {
     width: 300px;
     height: 300px;
     border: 1px solid #dadada;
@@ -7,7 +7,7 @@
     margin-bottom: 20px;
 }
 
-#tic-tac-toe-board > li {
+#tic-tac-toe-game-board > li {
     list-style: none;
     float: left;
     overflow: hidden;
@@ -25,21 +25,21 @@
     box-sizing: border-box;
 }
 
-#tic-tac-toe-board > li.x {
+#tic-tac-toe-game-board > li.x {
     font-size: 40px;
     color: #ed4e6e
 }
 
-#tic-tac-toe-board > li.o {
+#tic-tac-toe-game-board > li.o {
     font-size: 40px;
     color: #485b6e;
 }
 
-#tic-tac-toe-board > li:hover {
+#tic-tac-toe-game-board > li:hover {
     background: #f9f9f9;
 }
 
-#tic-tac-toe-board > li:active {
+#tic-tac-toe-game-board > li:active {
     width: 100px;
     height: 100px;
     border: 0;
