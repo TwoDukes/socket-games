@@ -69,9 +69,9 @@ io.on('connection', (socket) => {
     	callback();
     })
 
-    socket.on('player-move-ttt', (roomId, pos, context) => {
+    socket.on('player-move-ttt', (roomId, pos) => {
       console.log(roomId + 'player made move on ' + pos);
-      socket.broadcast.to(roomId).emit('player-moved-ttt', pos, context);
+      socket.broadcast.to(roomId).emit('player-moved-ttt', pos);
     })
 
 });
