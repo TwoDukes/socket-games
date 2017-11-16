@@ -35,12 +35,14 @@ io.on('connection', (socket) => {
       //if open room is available join it
       if(openRoom.id){
         console.log(username + " is joining room: " + openRoom.id)
+        //join new room
         socket.join(openRoom.id);
+        //send joining user the room id and other user
         socket.emit('ttt-join-game', {
           user : openRoom.users[0] || "Anonymous",
           room: openRoom.id
         });
-
+        //send other user the room id and the new users
         socket.broadcast.to(openRoom.id).emit('ttt-join-game', {
           user : username || "Anonymous",
           room: openRoom.id
@@ -49,14 +51,16 @@ io.on('connection', (socket) => {
       //else create and join a new room
       }else {
         console.log(username + " is creating room: " + socket.id)
+        //create new room
         rooms.addRoom( {
           id: socket.id,
           game: 'ttt',
           privateCode,
           users: [username]
         }, () => alert("EVERYTHING IS BROKEN"));
+        //join it
         socket.join(socket.id);
-
+        //send user room id
         io.to(socket.id).emit('ttt-new-game', {
           room: socket.id
         });
