@@ -48,7 +48,7 @@ io.on('connection', (socket) => {
         //join new room
         socket.join(openRoom.id);
         //choose a user to go first
-        const firstTurn = Math.round(Math.random()) == 0 ? false : true;
+        const firstTurn = Math.round(Math.random()) === 0 ? false : true;
         //send joining user the room id and other user
         socket.emit('ttt-join-game', {
           user : openRoom.users[0] || "Anonymous",

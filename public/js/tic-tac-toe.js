@@ -23,7 +23,7 @@ function ticTacToeGame() {
       init(res.first);
     });
     //tells player the move the opponent just made
-    socket.on('player-moved-ttt', function(pos, context){
+    socket.on('player-moved-ttt', function(pos){
       OpponentHandler(pos);
     });
     //tells player to create or find a new room because opponent left
