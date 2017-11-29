@@ -14,13 +14,20 @@ function ticTacToeGame() {
     });
     //resets the game for the player
     socket.on('ttt-reset-game', function(res){
-      if(res.winner)
-        console.log(`${res.winner} won!`)
-      else
+      AbleToBoxClick(false);
+      if(res.winner){
+        console.log(`${res.winner} won!`);
+        gameMessages.innerHTML = `${res.winner} won!`;
+      }
+      else{
         console.log(`Draw!`)
+        gameMessages.innerHTML = 'Draw!';
+      }
 
-      console.log('Your turn: ' + res.first);
-      init(res.first);
+      setTimeout(() => {
+        console.log('Your turn: ' + res.first);
+        init(res.first);
+      }, 2000)
     });
     //tells player the move the opponent just made
     socket.on('player-moved-ttt', function(pos){
@@ -38,23 +45,23 @@ function ticTacToeGame() {
 
 
     // Elements
-    var game = document.getElementById('tic-tac-toe-board');
-    var boxes = document.querySelectorAll('li');
-    var resetGame = document.getElementById('reset-game');
-    var turnDisplay = document.getElementById('whos-turn');
-    var gameMessages = document.getElementById('game-messages');
+    const game = document.getElementById('tic-tac-toe-board');
+    const boxes = document.querySelectorAll('li');
+    const resetGame = document.getElementById('reset-game');
+    const turnDisplay = document.getElementById('whos-turn');
+    const gameMessages = document.getElementById('game-info-text');
     
     // Vars
-    var context = { 'player1' : 'x', 'player2' : 'o' };
-    var board = [];
+    let context = { 'player1' : 'x', 'player2' : 'o' };
+    let board = [];
     
-    var playerOneScore = 0;
-    var playerTwoScore = 0;
+    let playerOneScore = 0;
+    let playerTwoScore = 0;
     
-    var turns;
-    var firstTurn;
-    var currentContext;
-    var clickedBoxes = [];
+    let turns;
+    let firstTurn;
+    let currentContext;
+    let clickedBoxes = [];
 
     AbleToBoxClick = (canClick) => {
       if(canClick) {
@@ -85,9 +92,13 @@ function ticTacToeGame() {
         board[2] = new Array(3);
         
         // bind events
-        if(clickable) AbleToBoxClick(true);
+        if(clickable) {
+          gameMessages.innerHTML = "Your Turn!";
+          AbleToBoxClick(true);
+        }else {
+          gameMessages.innerHTML = "Opponents Turn!";
+        }
         
-        //resetGame.addEventListener('click', resetGameHandler, false);
     }
     
     //Keeps track of player's turn
@@ -118,6 +129,7 @@ function ticTacToeGame() {
           
           turns++;
           AbleToBoxClick(false);
+          gameMessages.innerHTML = "Opponents Turn!";
           currentContext = computeContext(); 
     }
 
@@ -139,6 +151,7 @@ function ticTacToeGame() {
               
               turns++;
               AbleToBoxClick(true);
+              gameMessages.innerHTML = "Your Turn!";
               currentContext = computeContext();
         }
     
