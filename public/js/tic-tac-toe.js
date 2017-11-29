@@ -36,6 +36,9 @@ function ticTacToeGame() {
     //tells player to create or find a new room because opponent left
     socket.on('player-left-ttt', () => {
       $('#versus-text').text(username + ' vs. ' + '(WAITING)');
+      gameMessages.innerHTML = "Opponent left, waiting for new Challenger";
+      AbleToBoxClick(false);
+      resetBoard();
       socket.emit('ttt-join', username,'');
     });
 
