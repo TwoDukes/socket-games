@@ -18,14 +18,20 @@ app.use(express.static(publicPath));
 app.use(favicon(path.join(__dirname, '../public','images', 'favicon.ico')));
 
 const rooms = new Rooms();
+let activeUsers = 0;
 
 /** 
 //START: HANDLES ALL SOCKET CONNECTIONS TO SERVER
 **/
 io.on('connection', (socket) => {
+    activeUsers++;
     console.log('new user has joined');
 
+    io.emit('update-active-users', activeUsers);
+
     socket.on('disconnect', () => {
+      activeUsers--;
+      io.emit('update-active-users', activeUsers);
       console.log('player has left. ' + socket.id)
       //find room user was in
       const tempRoom = rooms.getSpecificRoomByUserId(socket.id);

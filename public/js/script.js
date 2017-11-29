@@ -1,11 +1,17 @@
-// #TODO: Change later
 let username = '';
 let curRoom = '';
 var socket = io.connect();
 
+const activeUsersText = document.querySelector('#active-users-text');
+
 ///////Socket incoming messages - START/////
 socket.on('connect', function() {
-	console.log('Client connected');
+  console.log('Client connected');
+  
+});
+
+socket.on('update-active-users', (userCount) => {
+  activeUsersText.innerHTML = `Current Active Users: ${userCount}`;
 });
 
 ///////Socket incoming messages - END/////
