@@ -1,3 +1,5 @@
+
+
 #tic-tac-toe-game-board {
     width: 465px;
     height: 465px;
@@ -44,6 +46,7 @@
     height: 155px;
     border: 0;
 }
+
 
 #nfo {
     text-align:center;
@@ -105,9 +108,28 @@
 }
 
 .tic-tac-toe-holder {
-	height: 500px;
+  height: 500px;
+  display: inline;
 }
 
 .center-input input {
 	text-align: center;
+}
+
+@media (max-width: 600px){
+  #tic-tac-toe-game-board {
+    width: 300px;
+    height: 300px;
+  }
+
+  #tic-tac-toe-game-board > li {
+    width: 100px;
+    height: 100px;
+  }
+
+  #tic-tac-toe-game-board > li:active {
+    width: 100px;
+    height: 100px;
+    border: 0;
+}
 }
