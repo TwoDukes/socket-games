@@ -27,6 +27,7 @@ io.on('connection', (socket) => {
     activeUsers++;
     console.log('new user has joined');
 
+    //updates the amount of users on the app dashboard
     io.emit('update-active-users', activeUsers);
 
     socket.on('disconnect', () => {
@@ -46,6 +47,7 @@ io.on('connection', (socket) => {
 
     })
 
+    //When user clicks the join tic-tac-toe button
     socket.on('ttt-join', (username, privateCode) => {
       const openRoom = rooms.getOpenRoom();
       //if open room is available join it
